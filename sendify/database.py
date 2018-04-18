@@ -4,39 +4,41 @@ meta = sa.MetaData()
 
 carrier = sa.Table(
     'Carriers', meta,
-    sa.Column('carrier_id', sa.Integer, nullable=False),
-    sa.Column('carrier_name', sa.TEXT, nullable=False),
-    sa.Column('price_per_km', sa.TEXT, nullable=False),
-    sa.Column('price_per_kg', sa.TEXT, nullable=False),
+    sa.Column('carrier_id', sa.Integer, primary_key=True),
+    sa.Column('carrier_name', sa.TEXT),
+    sa.Column('price_per_km', sa.TEXT),
+    sa.Column('price_per_kg', sa.TEXT),
 
-    # Indexes #
-    sa.PrimaryKeyConstraint('carrier_id', name='Carriers_pkey'),
 )
 
 transit_time = sa.Table(
     'Expected_transit_time', meta,
-    sa.Column('id', sa.Integer, nullable=False),
-    sa.Column('origin_city', sa.TEXT, nullable=False),
-    sa.Column('destination_city', sa.TEXT, nullable=False),
-    sa.Column('transit_time', sa.TEXT, nullable=False),
-    sa.Column('carrier_id', sa.TEXT, nullable=False),
+    sa.Column('id', sa.Integer, primary_key=True),
+    sa.Column('origin_city', sa.TEXT),
+    sa.Column('destination_city', sa.TEXT),
+    sa.Column('transit_time', sa.TEXT),
+    sa.Column('carrier_id', sa.TEXT, None, sa.ForeignKey('carrier.carrier_id')),
 
-    # Indexes #
-    sa.PrimaryKeyConstraint('id', name='Expected_transit_time_pkey'),
-    sa.ForeignKeyConstraint(['carrier_id'], [carrier.c.carrier_id],
-                            name='carrier_id',
-                            ondelete='CASCADE'),
 )
 
 products = sa.Table(
     'Products', meta,
-    sa.Column('product_id', sa.Integer, nullable=False),
-    sa.Column('product_type', sa.TEXT, nullable=False),
-    sa.Column('def_weight', sa.REAL, nullable=False),
-    sa.Column('def_width', sa.REAL, nullable=False),
-    sa.Column('def_height', sa.REAL, nullable=False),
-    sa.Column('def_length', sa.REAL, nullable=False),
+    sa.Column('product_id', sa.Integer, primary_key=True),
+    sa.Column('product_type', sa.TEXT),
+    sa.Column('def_weight', sa.REAL),
+    sa.Column('def_width', sa.REAL),
+    sa.Column('def_height', sa.REAL),
+    sa.Column('def_length', sa.REAL),
 
-    # Indexes #
-    sa.PrimaryKeyConstraint('product_id', name='Products_pkey'),
 )
+
+
+async def get_carrier(postgres, carrier_name):
+
+    res = list()
+    query = (sa.select([carrier], use_labels=True).where(carrier.c.carrier_name == carrier_name))
+
+    async for row in postgres.execute(query):
+        res.append(row.Carriers_carrier_name)
+
+    return res
