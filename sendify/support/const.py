@@ -1,0 +1,1 @@
+CONFIG_FILE = "../config/config_prod.yaml"
