@@ -1,4 +1,7 @@
-class ProductDbResult(object):
+from sendify.alembic_models.base_alembic_class import BaseAlembic
+
+
+class ProductDbResult(BaseAlembic):
     def __init__(self, product_type=None, def_weight=None, def_width=None, def_height=None, def_length=None):
         self._product_type = product_type
         self._def_weight = def_weight

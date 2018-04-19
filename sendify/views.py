@@ -1,6 +1,7 @@
 from aiohttp import web
 
 from sendify.alembic_models.headers_entry_data import HeadersEntryData
+from sendify.alembic_models.shipping_proposal_result import ShippingProposalResult
 from sendify.database import get_carrier, get_transit_time, get_product
 
 FIXED_VOLUME_VALUE = 2500
@@ -35,11 +36,7 @@ async def get_shipping_proposal(request):
 
         if transit_time_info:
             for transit_time in transit_time_info:
-                carrier_id = transit_time.get("carrier_id")
-                expected_transit_time = transit_time.get("transit_time")
-                distance = transit_time.get("distance")
-
-                carrier_info = await get_carrier(conn, carrier_id)
+                carrier_info = await get_carrier(conn, transit_time.carrier_id)
 
                 if headers_obj.weight is None and headers_obj.width is None and \
                         headers_obj.height is None and headers_obj.length is None:
@@ -54,21 +51,21 @@ async def get_shipping_proposal(request):
                 volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
 
                 price = calculate_price(
-                    distance,
+                    transit_time.distance,
                     volume_of_package,
                     headers_obj.weight,
                     carrier_info.price_per_kg,
                     carrier_info.price_per_km
                 )
 
-                result = {
-                    "carrier": carrier_info.carrier_name,
-                    "product": headers_obj.product_type,
-                    "price": price,
-                    "expected_transit_time": expected_transit_time
-                }
+                shipping_proposal_obj = ShippingProposalResult()
 
-                all_res.append(result)
+                shipping_proposal_obj.carrier_name = carrier_info.carrier_name
+                shipping_proposal_obj.product_type = headers_obj.product_type
+                shipping_proposal_obj.price = price
+                shipping_proposal_obj.expected_transit_time = transit_time.transit_time
+
+                all_res.append(shipping_proposal_obj.to_dict())
     return web.json_response(all_res)
 
 

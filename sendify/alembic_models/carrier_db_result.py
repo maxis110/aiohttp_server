@@ -1,9 +1,33 @@
-class CarrierDbResult(object):
-    def __init__(self, carrier_name=None, price_per_km=None, price_per_kg=None):
+from sendify.alembic_models.base_alembic_class import BaseAlembic
+
+
+class CarrierDbResult(BaseAlembic):
+    def __init__(self, carrier_id=None, carrier_name=None, price_per_km=None, price_per_kg=None):
+        self._carrier_id = carrier_id
         self._carrier_name = carrier_name
         self._price_per_km = price_per_km
         self._price_per_kg = price_per_kg
 
+    @property
+    def carrier_id(self):
+        """Gets the carrier_id from headers.
+
+        :return: The carrier_id.
+        :rtype: str
+        """
+        return self._carrier_id
+
+    @carrier_id.setter
+    def carrier_id(self, carrier_id: str):
+        """Sets the carrier_id of this HeadersEntryData.
+
+        Identifier of job type  # noqa: E501
+
+        :param reports_type: The carrier_id.
+        :type reports_type: str
+        """
+
+        self._carrier_id = carrier_id
 
     @property
     def carrier_name(self):

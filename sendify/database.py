@@ -3,6 +3,7 @@ import time
 
 from sendify.alembic_models.carrier_db_result import CarrierDbResult
 from sendify.alembic_models.product_db_result import ProductDbResult
+from sendify.alembic_models.transit_time_db_result import TransitTimeDbResult
 
 meta = sa.MetaData()
 
@@ -70,13 +71,11 @@ async def get_transit_time(postgres, origin_city, destination_city):
     ))
 
     async for row in postgres.execute(query):
+        transit_time_obj = TransitTimeDbResult()
+        transit_time_obj.transit_time = row.Expected_transit_time_transit_time
+        transit_time_obj.distance = row.Expected_transit_time_distance
+        transit_time_obj.carrier_id = row.Expected_transit_time_carrier_id
 
-        res.append(
-            {
-                "transit_time": row.Expected_transit_time_transit_time,
-                "distance": row.Expected_transit_time_distance,
-                "carrier_id": row.Expected_transit_time_carrier_id
-            }
-        )
+        res.append(transit_time_obj)
 
     return res

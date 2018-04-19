@@ -1,4 +1,7 @@
-class HeadersEntryData(object):
+from sendify.alembic_models.base_alembic_class import BaseAlembic
+
+
+class HeadersEntryData(BaseAlembic):
     def __init__(self, request):
         self._origin_city = request.headers.get("origin_city")
         self._destination_city = request.headers.get("destination_city")
