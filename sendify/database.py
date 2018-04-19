@@ -33,12 +33,33 @@ products = sa.Table(
 )
 
 
-async def get_carrier(postgres, carrier_name):
-
-    res = list()
-    query = (sa.select([carrier], use_labels=True).where(carrier.c.carrier_name == carrier_name))
+async def get_carrier(postgres, carrier_id):
+    result = None
+    query = (sa.select([carrier], use_labels=True).where(carrier.c.carrier_id == carrier_id))
 
     async for row in postgres.execute(query):
-        res.append(row.Carriers_carrier_name)
+        result = {
+            "carrier_name": row.Carriers_carrier_name,
+            "price_per_km": row.Carriers_price_per_km,
+            "price_per_kg": row.Carriers_price_per_kg
+        }
+
+    return result
+
+
+async def get_transit_time(postgres, origin_city, destination_city):
+    res = list()
+    query = (sa.select([transit_time], use_labels=True).where(
+        transit_time.c.origin_city == origin_city and transit_time.c.destination_city == destination_city
+    ))
+
+    async for row in postgres.execute(query):
+
+        res.append(
+            {
+                "transit_time": row.Expected_transit_time_transit_time,
+                "carrier_id": row.Expected_transit_time_carrier_id
+            }
+        )
 
     return res
