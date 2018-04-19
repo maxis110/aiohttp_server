@@ -5,7 +5,6 @@ import os
 
 import sys
 
-import aiopg
 from aiohttp import web
 from aiopg.sa import create_engine
 

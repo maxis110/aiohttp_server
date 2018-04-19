@@ -1,4 +1,6 @@
 from aiohttp import web
+
+from sendify.alembic_models.headers_entry_data import HeadersEntryData
 from sendify.database import get_carrier, get_transit_time, get_product
 
 FIXED_VOLUME_VALUE = 2500
@@ -24,17 +26,12 @@ async def carriers(request):
 
 async def get_shipping_proposal(request):
     db = request.app['db']
-    origin_city = request.headers.get("origin_city")
-    dest_city = request.headers.get("destination_city")
-    product_type = request.headers.get("product_type")
-    weight = request.headers.get("weight")
-    width = request.headers.get("width")
-    height = request.headers.get("height")
-    length = request.headers.get("length")
+    headers_obj = HeadersEntryData(request)
 
     all_res = list()
     async with db.acquire() as conn:
-        transit_time_info = await get_transit_time(conn, origin_city, dest_city)
+
+        transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city)
 
         if transit_time_info:
             for transit_time in transit_time_info:
@@ -52,21 +49,23 @@ async def get_shipping_proposal(request):
                     price_per_kg = carrier_info.get("price_per_kg")
                     price_per_km = carrier_info.get("price_per_km")
 
-                if weight is None and width is None and height is None and length is None:
-                    product_info = await get_product(conn, product_type)
+                if headers_obj.weight is None and headers_obj.width is None and \
+                        headers_obj.height is None and headers_obj.length is None:
 
-                    weight = product_info.get("def_weight")
-                    width = product_info.get("def_width")
-                    height = product_info.get("def_height")
-                    length = product_info.get("def_length")
+                    product_info = await get_product(conn, headers_obj.product_type)
 
-                volume_of_package = get_volume_of_package(width, height, length)
+                    headers_obj.weight = product_info.get("def_weight")
+                    headers_obj.width = product_info.get("def_width")
+                    headers_obj.height = product_info.get("def_height")
+                    headers_obj.length = product_info.get("def_length")
 
-                price = calculate_price(distance, volume_of_package, weight, price_per_kg, price_per_km)
+                volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
+
+                price = calculate_price(distance, volume_of_package, headers_obj.weight, price_per_kg, price_per_km)
 
                 result = {
                     "carrier": carrier_name,
-                    "product": product_type,
+                    "product": headers_obj.product_type,
                     "price": price,
                     "expected_transit_time": expected_transit_time
                 }
