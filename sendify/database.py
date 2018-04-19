@@ -6,8 +6,8 @@ carrier = sa.Table(
     'Carriers', meta,
     sa.Column('carrier_id', sa.Integer, primary_key=True),
     sa.Column('carrier_name', sa.TEXT),
-    sa.Column('price_per_km', sa.TEXT),
-    sa.Column('price_per_kg', sa.TEXT),
+    sa.Column('price_per_km', sa.REAL),
+    sa.Column('price_per_kg', sa.REAL),
 
 )
 
@@ -17,7 +17,8 @@ transit_time = sa.Table(
     sa.Column('origin_city', sa.TEXT),
     sa.Column('destination_city', sa.TEXT),
     sa.Column('transit_time', sa.TEXT),
-    sa.Column('carrier_id', sa.TEXT, None, sa.ForeignKey('carrier.carrier_id')),
+    sa.Column('distance', sa.Integer),
+    sa.Column('carrier_id', sa.Integer, None, sa.ForeignKey('carrier.carrier_id')),
 
 )
 
@@ -47,6 +48,21 @@ async def get_carrier(postgres, carrier_id):
     return result
 
 
+async def get_product(postgres, product_type):
+    result = None
+    query = (sa.select([products], use_labels=True).where(products.c.product_type == product_type))
+
+    async for row in postgres.execute(query):
+        result = {
+            "def_weight": row.Products_def_weight,
+            "def_width": row.Products_def_width,
+            "def_height": row.Products_def_height,
+            "def_length": row.Products_def_length,
+        }
+
+    return result
+
+
 async def get_transit_time(postgres, origin_city, destination_city):
     res = list()
     query = (sa.select([transit_time], use_labels=True).where(
@@ -58,6 +74,7 @@ async def get_transit_time(postgres, origin_city, destination_city):
         res.append(
             {
                 "transit_time": row.Expected_transit_time_transit_time,
+                "distance": row.Expected_transit_time_distance,
                 "carrier_id": row.Expected_transit_time_carrier_id
             }
         )
