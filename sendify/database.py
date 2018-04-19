@@ -1,5 +1,4 @@
 import sqlalchemy as sa
-import time
 
 from sendify.alembic_models.carrier_db_result import CarrierDbResult
 from sendify.alembic_models.product_db_result import ProductDbResult

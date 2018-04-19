@@ -8,21 +8,7 @@ FIXED_VOLUME_VALUE = 2500
 
 
 async def index(request):
-    return web.Response(text='Server Sendify')
-
-
-async def carriers(request):
-    db = request.app['db']
-    carrier_id = request.headers.get("carrier_id")
-
-    async with db.acquire() as conn:
-        carriers = await get_carrier(conn, carrier_id)
-
-        result = {
-            "carriers": carriers
-        }
-
-    return web.json_response(result)
+    return web.Response(text='Welcome to Sendify test server')
 
 
 async def get_shipping_proposal(request):
@@ -31,22 +17,13 @@ async def get_shipping_proposal(request):
 
     all_res = list()
     async with db.acquire() as conn:
-
         transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city)
 
         if transit_time_info:
             for transit_time in transit_time_info:
                 carrier_info = await get_carrier(conn, transit_time.carrier_id)
 
-                if headers_obj.weight is None and headers_obj.width is None and \
-                        headers_obj.height is None and headers_obj.length is None:
-
-                    product_info = await get_product(conn, headers_obj.product_type)
-
-                    headers_obj.weight = product_info.def_weight
-                    headers_obj.width = product_info.def_width
-                    headers_obj.height = product_info.def_height
-                    headers_obj.length = product_info.def_length
+                await check_volume(conn, headers_obj)
 
                 volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
 
@@ -58,15 +35,33 @@ async def get_shipping_proposal(request):
                     carrier_info.price_per_km
                 )
 
-                shipping_proposal_obj = ShippingProposalResult()
+                results = collect_proposal_results(carrier_info, headers_obj, price, transit_time)
 
-                shipping_proposal_obj.carrier_name = carrier_info.carrier_name
-                shipping_proposal_obj.product_type = headers_obj.product_type
-                shipping_proposal_obj.price = price
-                shipping_proposal_obj.expected_transit_time = transit_time.transit_time
+                all_res.append(results)
 
-                all_res.append(shipping_proposal_obj.to_dict())
     return web.json_response(all_res)
+
+
+async def check_volume(conn, headers_obj):
+    if headers_obj.weight is None and headers_obj.width is None and \
+            headers_obj.height is None and headers_obj.length is None:
+        product_info = await get_product(conn, headers_obj.product_type)
+
+        headers_obj.weight = product_info.def_weight
+        headers_obj.width = product_info.def_width
+        headers_obj.height = product_info.def_height
+        headers_obj.length = product_info.def_length
+
+
+def collect_proposal_results(carrier_info, headers_obj, price, transit_time):
+    shipping_proposal_obj = ShippingProposalResult()
+
+    shipping_proposal_obj.carrier_name = carrier_info.carrier_name
+    shipping_proposal_obj.product_type = headers_obj.product_type
+    shipping_proposal_obj.price = price
+    shipping_proposal_obj.expected_transit_time = transit_time.transit_time
+
+    return shipping_proposal_obj.to_dict()
 
 
 def calculate_price(distance, volume_of_package, weight, price_per_kg, price_per_km):
