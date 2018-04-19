@@ -1,6 +1,9 @@
 import sqlalchemy as sa
 import time
 
+from sendify.alembic_models.carrier_db_result import CarrierDbResult
+from sendify.alembic_models.product_db_result import ProductDbResult
+
 meta = sa.MetaData()
 
 carrier = sa.Table(
@@ -36,32 +39,28 @@ products = sa.Table(
 
 
 async def get_carrier(postgres, carrier_id):
-    result = None
+    carrier_db_obj = CarrierDbResult()
     query = (sa.select([carrier], use_labels=True).where(carrier.c.carrier_id == carrier_id))
 
     async for row in postgres.execute(query):
-        result = {
-            "carrier_name": row.Carriers_carrier_name,
-            "price_per_km": row.Carriers_price_per_km,
-            "price_per_kg": row.Carriers_price_per_kg
-        }
+        carrier_db_obj.carrier_name = row.Carriers_carrier_name
+        carrier_db_obj.price_per_km = row.Carriers_price_per_km
+        carrier_db_obj.price_per_kg = row.Carriers_price_per_kg
 
-    return result
+    return carrier_db_obj
 
 
 async def get_product(postgres, product_type):
-    result = None
+    product_db_obj = ProductDbResult()
     query = (sa.select([products], use_labels=True).where(products.c.product_type == product_type))
 
     async for row in postgres.execute(query):
-        result = {
-            "def_weight": row.Products_def_weight,
-            "def_width": row.Products_def_width,
-            "def_height": row.Products_def_height,
-            "def_length": row.Products_def_length,
-        }
+        product_db_obj.def_weight = row.Products_def_weight
+        product_db_obj.def_width = row.Products_def_width
+        product_db_obj.def_height = row.Products_def_height
+        product_db_obj.def_length = row.Products_def_length
 
-    return result
+    return product_db_obj
 
 
 async def get_transit_time(postgres, origin_city, destination_city):

@@ -41,30 +41,28 @@ async def get_shipping_proposal(request):
 
                 carrier_info = await get_carrier(conn, carrier_id)
 
-                carrier_name = None
-                price_per_kg = None
-                price_per_km = None
-                if carrier_info:
-                    carrier_name = carrier_info.get("carrier_name")
-                    price_per_kg = carrier_info.get("price_per_kg")
-                    price_per_km = carrier_info.get("price_per_km")
-
                 if headers_obj.weight is None and headers_obj.width is None and \
                         headers_obj.height is None and headers_obj.length is None:
 
                     product_info = await get_product(conn, headers_obj.product_type)
 
-                    headers_obj.weight = product_info.get("def_weight")
-                    headers_obj.width = product_info.get("def_width")
-                    headers_obj.height = product_info.get("def_height")
-                    headers_obj.length = product_info.get("def_length")
+                    headers_obj.weight = product_info.def_weight
+                    headers_obj.width = product_info.def_width
+                    headers_obj.height = product_info.def_height
+                    headers_obj.length = product_info.def_length
 
                 volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
 
-                price = calculate_price(distance, volume_of_package, headers_obj.weight, price_per_kg, price_per_km)
+                price = calculate_price(
+                    distance,
+                    volume_of_package,
+                    headers_obj.weight,
+                    carrier_info.price_per_kg,
+                    carrier_info.price_per_km
+                )
 
                 result = {
-                    "carrier": carrier_name,
+                    "carrier": carrier_info.carrier_name,
                     "product": headers_obj.product_type,
                     "price": price,
                     "expected_transit_time": expected_transit_time
