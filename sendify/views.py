@@ -1,8 +1,10 @@
+import logging
+
 from aiohttp import web
 
 from sendify.alembic_models.headers_entry_data import HeadersEntryData
 from sendify.alembic_models.shipping_proposal_result import ShippingProposalResult
-from sendify.database import get_carrier, get_transit_time, get_product
+from sendify.database import get_carrier, get_transit_time, get_product, create_tables, fill_data
 
 FIXED_VOLUME_VALUE = 2500
 
@@ -12,12 +14,21 @@ async def index(request):
 
 
 async def get_shipping_proposal(request):
+    log = logging.getLogger(__name__)
     db = request.app['db']
     headers_obj = HeadersEntryData(request)
 
     all_res = list()
     async with db.acquire() as conn:
-        transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city)
+        await create_tables(conn)
+        filled_data = await fill_data(conn)
+
+        if not filled_data:
+            log.error('error during filled data')
+            return web.Response(text='error during filled data')
+
+        transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city, log)
+        log.info("transit_time_info = {}".format(transit_time_info))
 
         if transit_time_info:
             for transit_time in transit_time_info:
@@ -27,6 +38,8 @@ async def get_shipping_proposal(request):
 
                 volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
 
+                log.info("volume_of_package = {}".format(volume_of_package))
+
                 price = calculate_price(
                     transit_time.distance,
                     volume_of_package,
@@ -35,10 +48,15 @@ async def get_shipping_proposal(request):
                     carrier_info.price_per_km
                 )
 
+                log.info("price = {}".format(price))
+
                 results = collect_proposal_results(carrier_info, headers_obj, price, transit_time)
+
+                log.info("results = {}".format(results))
 
                 all_res.append(results)
 
+    log.info("all_res = {}".format(all_res))
     return web.json_response(all_res)
 
 

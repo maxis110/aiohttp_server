@@ -1,10 +1,13 @@
 ENV = env
 LINUX_ACTIVATE_PATH = $(ENV)/bin/activate
+DOCKER_COMPOSE = docker-compose
 
 .PHONY: build_environment
 build_environment: clean_linux
 	virtualenv $(ENV)
 	sh -c '. $(LINUX_ACTIVATE_PATH); pip install -r requirements.txt'
+	pip install docker-compose
+	$(DOCKER_COMPOSE)  up -d --build --remove-orphans
 	echo "initialization complete"
 
 .PHONY: clean_linux
