@@ -30,14 +30,15 @@ async def main(loop):
 
     conf = load_config(CONFIG_FILE)
     app['config'] = conf
-    host, port, user, database = conf['host'], conf['port'], conf['postgres']['user'], conf['postgres']['database']
+    host, port, user, database, password = conf['host'], conf['port'], conf['postgres']['user'], conf['postgres']['database'], conf['postgres']['password']
 
     setup_routes(app)
 
     app['db'] = await create_engine(
-        user=user,
-        database=database,
-        host=host
+        user="user_sendify",
+        password="user_sendify",
+        database="sendify_db",
+        host="dbPostgres"
     )
 
     # init logging and attach access_log
@@ -45,7 +46,7 @@ async def main(loop):
     app_handler = app.make_handler(access_log=log)
 
     srv = await loop.create_server(app_handler, host, port)
-    print("Server started at http://{0}:{1}".format(host, port))
+    log.info("Server started at http://{0}:{1}".format(host, port))
     return srv, app_handler
 
 loop = asyncio.get_event_loop()

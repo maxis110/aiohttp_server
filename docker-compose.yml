@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  dbPostgres:
+    image: postgres:10
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: sendify_db
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user_sendify
+
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8080:8080
+
+  web:
+    build: ./
+    ports:
+      - 5858:5858
+
+    links:
+      - dbPostgres
