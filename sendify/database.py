@@ -122,7 +122,7 @@ async def get_product(postgres, product_type):
     return product_db_obj
 
 
-async def get_transit_time(postgres, origin_city, destination_city, log):
+async def get_transit_time(postgres, origin_city, destination_city):
     res = list()
 
     query = (sa.select([expected_transit_time], use_labels=True).where(

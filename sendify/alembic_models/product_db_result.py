@@ -12,7 +12,7 @@ class ProductDbResult(BaseAlembic):
 
     @property
     def product_type(self):
-        """Gets the product_type from headers.
+        """Gets the product_type.
 
         :return: The product_type.
         :rtype: str
@@ -21,9 +21,7 @@ class ProductDbResult(BaseAlembic):
 
     @product_type.setter
     def product_type(self, product_type: str):
-        """Sets the product_type of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the product_type.
 
         :param reports_type: The product_type.
         :type reports_type: str
@@ -33,7 +31,7 @@ class ProductDbResult(BaseAlembic):
 
     @property
     def def_weight(self):
-        """Gets the def_weight from headers.
+        """Gets the def_weight.
 
         :return: The def_weight.
         :rtype: str
@@ -42,9 +40,7 @@ class ProductDbResult(BaseAlembic):
 
     @def_weight.setter
     def def_weight(self, def_weight: str):
-        """Sets the def_weight of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the def_weight.
 
         :param reports_type: The def_weight.
         :type reports_type: str
@@ -63,9 +59,7 @@ class ProductDbResult(BaseAlembic):
 
     @def_width.setter
     def def_width(self, def_width: str):
-        """Sets the def_width of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the def_width.
 
         :param reports_type: The def_width.
         :type reports_type: str
@@ -84,9 +78,7 @@ class ProductDbResult(BaseAlembic):
 
     @def_height.setter
     def def_height(self, def_height: str):
-        """Sets the def_height of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the def_height.
 
         :param reports_type: The def_height.
         :type reports_type: str
@@ -105,9 +97,7 @@ class ProductDbResult(BaseAlembic):
 
     @def_length.setter
     def def_length(self, def_length: str):
-        """Sets the def_length of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the def_length.
 
         :param reports_type: The def_length.
         :type reports_type: str

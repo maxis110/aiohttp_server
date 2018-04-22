@@ -10,7 +10,7 @@ class CarrierDbResult(BaseAlembic):
 
     @property
     def carrier_id(self):
-        """Gets the carrier_id from headers.
+        """Gets the carrier_id.
 
         :return: The carrier_id.
         :rtype: str
@@ -19,9 +19,7 @@ class CarrierDbResult(BaseAlembic):
 
     @carrier_id.setter
     def carrier_id(self, carrier_id: str):
-        """Sets the carrier_id of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the carrier_id.
 
         :param reports_type: The carrier_id.
         :type reports_type: str
@@ -31,7 +29,7 @@ class CarrierDbResult(BaseAlembic):
 
     @property
     def carrier_name(self):
-        """Gets the carrier_name from headers.
+        """Gets the carrier_name.
 
         :return: The carrier_name.
         :rtype: str
@@ -40,9 +38,7 @@ class CarrierDbResult(BaseAlembic):
 
     @carrier_name.setter
     def carrier_name(self, carrier_name: str):
-        """Sets the carrier_name of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the carrier_name.
 
         :param reports_type: The carrier_name.
         :type reports_type: str
@@ -52,7 +48,7 @@ class CarrierDbResult(BaseAlembic):
 
     @property
     def price_per_km(self):
-        """Gets the price_per_km from headers.
+        """Gets the price_per_km.
 
         :return: The price_per_km.
         :rtype: str
@@ -61,9 +57,7 @@ class CarrierDbResult(BaseAlembic):
 
     @price_per_km.setter
     def price_per_km(self, price_per_km: str):
-        """Sets the price_per_km of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the price_per_km.
 
         :param reports_type: The price_per_km.
         :type reports_type: str
@@ -73,7 +67,7 @@ class CarrierDbResult(BaseAlembic):
 
     @property
     def price_per_kg(self):
-        """Gets the product_type from headers.
+        """Gets the product_type.
 
         :return: The product_type.
         :rtype: str
@@ -82,9 +76,7 @@ class CarrierDbResult(BaseAlembic):
 
     @price_per_kg.setter
     def price_per_kg(self, price_per_kg: str):
-        """Sets the price_per_kg of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the price_per_kg.
 
         :param reports_type: The price_per_kg.
         :type reports_type: str

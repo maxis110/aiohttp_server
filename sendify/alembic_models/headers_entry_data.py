@@ -13,7 +13,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def origin_city(self):
-        """Gets the origin_city from headers.
+        """Gets the origin_city.
 
         :return: The origin_city.
         :rtype: str
@@ -22,9 +22,7 @@ class HeadersEntryData(BaseAlembic):
 
     @origin_city.setter
     def origin_city(self, origin_city: str):
-        """Sets the origin_city of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the origin_city.
 
         :param reports_type: The origin_city.
         :type reports_type: str
@@ -34,7 +32,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def destination_city(self):
-        """Gets the destination_city from headers.
+        """Gets the destination_city.
 
         :return: The destination_city.
         :rtype: str
@@ -43,9 +41,7 @@ class HeadersEntryData(BaseAlembic):
 
     @destination_city.setter
     def destination_city(self, destination_city: str):
-        """Sets the destination_city of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the destination_city.
 
         :param reports_type: The destination_city.
         :type reports_type: str
@@ -55,7 +51,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def product_type(self):
-        """Gets the product_type from headers.
+        """Gets the product_type.
 
         :return: The product_type.
         :rtype: str
@@ -64,9 +60,7 @@ class HeadersEntryData(BaseAlembic):
 
     @product_type.setter
     def product_type(self, product_type: str):
-        """Sets the product_type of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the product_type.
 
         :param reports_type: The product_type.
         :type reports_type: str
@@ -76,7 +70,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def weight(self):
-        """Gets the weight from headers.
+        """Gets the weight.
 
         :return: The destination_city.
         :rtype: str
@@ -85,9 +79,7 @@ class HeadersEntryData(BaseAlembic):
 
     @weight.setter
     def weight(self, weight: str):
-        """Sets the weight of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the weight.
 
         :param reports_type: The weight.
         :type reports_type: str
@@ -97,18 +89,16 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def width(self):
-        """Gets the width from headers.
+        """Gets the width.
 
-        :return: The destination_city.
+        :return: The width.
         :rtype: str
         """
         return self._width
 
     @width.setter
     def width(self, width: str):
-        """Sets the width of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the width.
 
         :param reports_type: The width.
         :type reports_type: str
@@ -118,7 +108,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def height(self):
-        """Gets the height from headers.
+        """Gets the height.
 
         :return: The height.
         :rtype: str
@@ -127,9 +117,7 @@ class HeadersEntryData(BaseAlembic):
 
     @height.setter
     def height(self, height: str):
-        """Sets the height of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the height.
 
         :param reports_type: The height.
         :type reports_type: str
@@ -139,7 +127,7 @@ class HeadersEntryData(BaseAlembic):
 
     @property
     def length(self):
-        """Gets the length from headers.
+        """Gets the length.
 
         :return: The length.
         :rtype: str
@@ -148,9 +136,7 @@ class HeadersEntryData(BaseAlembic):
 
     @length.setter
     def length(self, length: str):
-        """Sets the length of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the length.
 
         :param reports_type: The length.
         :type reports_type: str

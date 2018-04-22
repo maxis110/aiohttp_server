@@ -1,5 +1,3 @@
-import logging
-
 from aiohttp import web
 
 from sendify.alembic_models.headers_entry_data import HeadersEntryData
@@ -14,7 +12,6 @@ async def index(request):
 
 
 async def get_shipping_proposal(request):
-    log = logging.getLogger(__name__)
     db = request.app['db']
     headers_obj = HeadersEntryData(request)
 
@@ -24,11 +21,9 @@ async def get_shipping_proposal(request):
         filled_data = await fill_data(conn)
 
         if not filled_data:
-            log.error('error during filled data')
             return web.Response(text='error during filled data')
 
-        transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city, log)
-        log.info("transit_time_info = {}".format(transit_time_info))
+        transit_time_info = await get_transit_time(conn, headers_obj.origin_city, headers_obj.destination_city)
 
         if transit_time_info:
             for transit_time in transit_time_info:
@@ -38,8 +33,6 @@ async def get_shipping_proposal(request):
 
                 volume_of_package = get_volume_of_package(headers_obj.width, headers_obj.height, headers_obj.length)
 
-                log.info("volume_of_package = {}".format(volume_of_package))
-
                 price = calculate_price(
                     transit_time.distance,
                     volume_of_package,
@@ -48,26 +41,26 @@ async def get_shipping_proposal(request):
                     carrier_info.price_per_km
                 )
 
-                log.info("price = {}".format(price))
-
                 results = collect_proposal_results(carrier_info, headers_obj, price, transit_time)
-
-                log.info("results = {}".format(results))
 
                 all_res.append(results)
 
-    log.info("all_res = {}".format(all_res))
     return web.json_response(all_res)
 
 
 async def check_volume(conn, headers_obj):
-    if headers_obj.weight is None and headers_obj.width is None and \
-            headers_obj.height is None and headers_obj.length is None:
-        product_info = await get_product(conn, headers_obj.product_type)
+    product_info = await get_product(conn, headers_obj.product_type)
 
+    if headers_obj.weight is None:
         headers_obj.weight = product_info.def_weight
+
+    if headers_obj.width is None:
         headers_obj.width = product_info.def_width
+
+    if headers_obj.height is None:
         headers_obj.height = product_info.def_height
+
+    if headers_obj.length is None:
         headers_obj.length = product_info.def_length
 
 

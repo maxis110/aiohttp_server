@@ -12,7 +12,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @property
     def origin_city(self):
-        """Gets the origin_city from headers.
+        """Gets the origin_city.
 
         :return: The origin_city.
         :rtype: str
@@ -21,9 +21,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @origin_city.setter
     def origin_city(self, origin_city: str):
-        """Sets the origin_city of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the origin_city.
 
         :param reports_type: The origin_city.
         :type reports_type: str
@@ -33,7 +31,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @property
     def destination_city(self):
-        """Gets the destination_city from headers.
+        """Gets the destination_city.
 
         :return: The destination_city.
         :rtype: str
@@ -42,9 +40,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @destination_city.setter
     def destination_city(self, destination_city: str):
-        """Sets the destination_city of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the destination_city.
 
         :param reports_type: The destination_city.
         :type reports_type: str
@@ -54,7 +50,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @property
     def transit_time(self):
-        """Gets the transit_time from headers.
+        """Gets the transit_time.
 
         :return: The transit_time.
         :rtype: str
@@ -63,9 +59,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @transit_time.setter
     def transit_time(self, transit_time: str):
-        """Sets the transit_time of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the transit_time.
 
         :param reports_type: The transit_time.
         :type reports_type: str
@@ -75,7 +69,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @property
     def carrier_id(self):
-        """Gets the carrier_id from headers.
+        """Gets the carrier_id.
 
         :return: The carrier_id.
         :rtype: str
@@ -84,9 +78,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @carrier_id.setter
     def carrier_id(self, carrier_id: str):
-        """Sets the carrier_id of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the carrier_id.
 
         :param reports_type: The carrier_id.
         :type reports_type: str
@@ -96,7 +88,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @property
     def distance(self):
-        """Gets the distance from headers.
+        """Gets the distance.
 
         :return: The distance.
         :rtype: str
@@ -105,9 +97,7 @@ class TransitTimeDbResult(BaseAlembic):
 
     @distance.setter
     def distance(self, distance: str):
-        """Sets the distance of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the distance.
 
         :param reports_type: The distance.
         :type reports_type: str

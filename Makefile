@@ -6,7 +6,7 @@ DOCKER_COMPOSE = docker-compose
 build_environment: clean_linux
 	virtualenv $(ENV)
 	sh -c '. $(LINUX_ACTIVATE_PATH); pip install -r requirements.txt'
-	pip install docker-compose
+	pip install $(DOCKER_COMPOSE)
 	$(DOCKER_COMPOSE)  up -d --build --remove-orphans
 	echo "initialization complete"
 

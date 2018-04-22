@@ -19,7 +19,7 @@ except ImportError:
     import sendify  # noqa: E402 # module level import not at top of file
 
 from sendify.routes import setup_routes  # noqa: E402 # module level import not at top of file
-from sendify.utils import load_config  # noqa: E402 # module level import not at top of file
+from sendify.support.utils import load_config, parse_db_parameters  # noqa: E402 # module level import not at top of file
 from sendify.support.const import CONFIG_FILE  # noqa: E402 # module level import not at top of file
 
 log = logging.getLogger(__name__)
@@ -32,17 +32,13 @@ async def main(loop):
     app['config'] = conf
     setup_routes(app)
 
-    postgres = conf.get("postgres")
-    host_db = postgres.get("host")
-    user_db = postgres.get("user")
-    password_db = postgres.get("password")
-    database = postgres.get("database")
+    postgres = parse_db_parameters(conf)
 
     app['db'] = await create_engine(
-        user=user_db,
-        password=password_db,
-        database=database,
-        host=host_db
+        user=postgres.user_db,
+        password=postgres.password_db,
+        database=postgres.database,
+        host=postgres.host_db
     )
 
     # init logging and attach access_log

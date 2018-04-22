@@ -10,7 +10,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @property
     def carrier_name(self):
-        """Gets the carrier_name from headers.
+        """Gets the carrier_name.
 
         :return: The carrier_name.
         :rtype: str
@@ -19,9 +19,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @carrier_name.setter
     def carrier_name(self, carrier_name: str):
-        """Sets the carrier_name of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the carrier_name.
 
         :param reports_type: The carrier_name.
         :type reports_type: str
@@ -31,7 +29,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @property
     def product_type(self):
-        """Gets the product_type from headers.
+        """Gets the product_type.
 
         :return: The product_type.
         :rtype: str
@@ -40,9 +38,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @product_type.setter
     def product_type(self, product_type: str):
-        """Sets the product_type of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the product_type.
 
         :param reports_type: The product_type.
         :type reports_type: str
@@ -52,7 +48,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @property
     def price(self):
-        """Gets the price from headers.
+        """Gets the price.
 
         :return: The price.
         :rtype: str
@@ -61,9 +57,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @price.setter
     def price(self, price: str):
-        """Sets the price of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the price.
 
         :param reports_type: The price.
         :type reports_type: str
@@ -73,7 +67,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @property
     def expected_transit_time(self):
-        """Gets the expected_transit_time from headers.
+        """Gets the expected_transit_time.
 
         :return: The expected_transit_time.
         :rtype: str
@@ -82,9 +76,7 @@ class ShippingProposalResult(BaseAlembic):
 
     @expected_transit_time.setter
     def expected_transit_time(self, expected_transit_time: str):
-        """Sets the expected_transit_time of this HeadersEntryData.
-
-        Identifier of job type  # noqa: E501
+        """Sets the expected_transit_time.
 
         :param reports_type: The expected_transit_time.
         :type reports_type: str
