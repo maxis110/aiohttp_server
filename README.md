@@ -1,10 +1,10 @@
-##Sendify Server
+## Sendify Server
 
-###Description:
+### Description:
 This server based on aiohttp framework which automatically deployed to 3 docker container(DB, DB Viewer, Server API).
 Server provide is one route `/proposals` which give shipments proposals from all carriers  based on input data in headers.  
 
-###Requirements:
+### Requirements:
 
 1. Install `Python 3.6`, if not yet installed (https://www.python.org/downloads/).
 2. Have latest possible `pip` installed.
